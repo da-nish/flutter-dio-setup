@@ -6,7 +6,7 @@ import 'package:session_manage/services/api_service.dart';
 class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final apiService = Get.find<ApiService>();
+    // final apiService = Get.find<ApiService>();
     final homeController = Get.find<HomeController>();
 
     return Scaffold(
