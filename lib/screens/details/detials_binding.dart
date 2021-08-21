@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:getx_setup/screens/details/details_controller.dart';
+import 'package:session_manage/screens/details/details_controller.dart';
 
 class DetailBinding extends Bindings {
   @override

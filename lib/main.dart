@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_setup/screens/details/details_screen.dart';
-import 'package:getx_setup/screens/details/detials_binding.dart';
-import 'package:getx_setup/screens/home/home_binding.dart';
-import 'package:getx_setup/screens/home/home_screen.dart';
+import 'package:session_manage/screens/details/details_screen.dart';
+import 'package:session_manage/screens/details/detials_binding.dart';
+import 'package:session_manage/screens/home/home_binding.dart';
+import 'package:session_manage/screens/home/home_screen.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_setup/screens/home/home_controller.dart';
-import 'package:getx_setup/services/api_service.dart';
+import 'package:session_manage/screens/home/home_controller.dart';
+import 'package:session_manage/services/api_service.dart';
 
 class DetailScreen extends StatelessWidget {
   @override

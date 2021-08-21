@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
-import 'package:getx_setup/services/api_service.dart';
+import 'package:session_manage/services/api_service.dart';
 
 import 'home_controller.dart';
 
