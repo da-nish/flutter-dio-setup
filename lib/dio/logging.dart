@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:session_manage/dio/dio_error_handler.dart';
+import 'package:session_manage/dio/dio_response_handler.dart';
 
-class Logging extends Interceptor with DioErrorHandler {
+class Logging extends Interceptor with DioErrorHandler, DioResponseHandler {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     print('REQUEST[${options.method}] => PATH: ${options.path}');
@@ -14,6 +15,17 @@ class Logging extends Interceptor with DioErrorHandler {
     print(
       'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
     );
+
+    switch (response.requestOptions.path) {
+      case '/login':
+        if (response.statusCode == 200) {
+          setToken(response);
+        }
+
+        break;
+      default:
+    }
+
     return super.onResponse(response, handler);
   }
 

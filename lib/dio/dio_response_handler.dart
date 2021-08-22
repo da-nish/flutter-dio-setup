@@ -1,19 +1,20 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-mixin DioErrorHandler {
-  handle401(DioError err, ErrorInterceptorHandler handler) async {
-    final opts = Options(
-        method: err.requestOptions.method, headers: err.requestOptions.headers);
+mixin DioResponseHandler {
+  setToken(Response response) async {
+    final res = response.data;
 
-    //refresh token
-
-    // final cloneReq = await Application.userApi.dio.request(
-    //     err.requestOptions.path,
-    //     options: opts,
-    //     data: err.requestOptions.data,
-    //     queryParameters: err.requestOptions.queryParameters);
-
-    // return handler.resolve(cloneReq);
+    Map<String, dynamic> map = {
+      'token': res['token'],
+      'refreshtoken': res['refreshToken'],
+      'expiresIn': res['expiresIn'],
+    };
+    print('set token : $map');
+    // String userData = jsonEncode(map);
+    // final prefs = await SharedPreferences.getInstance();
+    //
+    // await prefs.setString('userRefreshToken', userData);
   }
 }
 

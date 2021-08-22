@@ -5,7 +5,7 @@ class UserApi {
 
   final Dio dio;
 
-  set token(String token) {
+  void token(String token) {
     dio.options.headers["Authorization"] = "Bearer $token";
   }
 

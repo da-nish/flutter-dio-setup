@@ -11,35 +11,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Application extends StatelessWidget {
-  static var authApi;
-  static var userApi;
-
   Application({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    authApi = AuthApi(Dio(BaseOptions(
-      receiveDataWhenStatusError: true,
-      baseUrl: 'https://reqres.in/api',
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-    )));
-
-    userApi = UserApi(Dio(BaseOptions(
+    Get.put(AuthApi(Dio(BaseOptions(
       receiveDataWhenStatusError: true,
       baseUrl: 'https://reqres.in/api',
       connectTimeout: 5000,
       receiveTimeout: 3000,
     ))
-      ..interceptors.add(Logging()));
+      ..interceptors.add(Logging())));
 
-    // return MaterialApp(
-    //   title: 'Flutter Demo',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.blue,
-    //   ),
-    //   home: HomeScreen(),
-    // );
+    Get.put(UserApi(Dio(BaseOptions(
+      receiveDataWhenStatusError: true,
+      baseUrl: 'https://reqres.in/api',
+      connectTimeout: 5000,
+      receiveTimeout: 3000,
+    ))
+      ..interceptors.add(Logging())));
+
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

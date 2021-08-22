@@ -15,6 +15,17 @@ class AuthApi {
     print('User Info: ${userData.data}');
   }
 
+  Future<Map?> refreshToken(String accessToken, String refreshToken) async {
+    var response = ((await dio.post("/Token",
+        data: {'accessToken': accessToken, 'refreshToken': refreshToken})));
+
+    if (response.statusCode == 200) {
+      return response.data as Map<String, dynamic>;
+    } else {
+      return null;
+    }
+  }
+
   /* Future<AuthDTO> signIn(String email, String password) async =>
       AuthDTO.fromJson((await dio
               .post("User/login", data: {'email': email, 'password': password}))
@@ -47,4 +58,5 @@ class AuthApi {
   Future<EmailExistDTO> emailExist(String email) async =>
       EmailExistDTO.fromJson((await dio.get("/User/checkemail/$email")).data
           as Map<String, dynamic>); */
+
 }

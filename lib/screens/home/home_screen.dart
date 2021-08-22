@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:session_manage/application.dart';
 import 'package:session_manage/data/api/api_auth.dart';
 import 'package:session_manage/data/api/api_user.dart';
-
-import 'home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -38,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final homeController = Get.find<HomeController>();
+    // final homeController = Get.find<HomeController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -49,30 +46,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Obx(
-              () => Text(
-                "${homeController.count}",
-                style: TextStyle(fontSize: 24),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Get.toNamed("/detail");
-                // print(apiService.fetchTextFromApi());
-                homeController.increment();
-              },
-              child: Text("Increment"),
-            ),
             ElevatedButton(
                 onPressed: () {
-                  final AuthApi _client = Application.authApi;
+                  final AuthApi _client = Get.find<AuthApi>();
                   _client.getUser(
                       email: 'eve.holt@reqres.in', password: "cityslicka");
                 },
                 child: Text('Auth API')),
             ElevatedButton(
                 onPressed: () {
-                  final UserApi _client = Application.userApi;
+                  final UserApi _client = Get.find<UserApi>();
                   _client.getSingleUser();
                 },
                 child: Text('User API')),
