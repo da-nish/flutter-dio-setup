@@ -8,8 +8,6 @@ class HomeBinding extends Bindings {
 
   @override
   void dependencies() {
-    // Get.put(authApi);
-    // Get.put(userApi);
     Get.put(HomeController());
   }
 }

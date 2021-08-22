@@ -1,12 +1,39 @@
-import 'package:dio/dio.dart';
-import 'package:session_manage/dio/dio_error_handler.dart';
-import 'package:session_manage/dio/dio_response_handler.dart';
+import 'dart:convert';
 
-class Logging extends Interceptor with DioErrorHandler, DioResponseHandler {
+import 'package:dio/dio.dart';
+import 'package:get/get.dart' as GetX;
+import 'package:session_manage/data/services/user_services.dart';
+import 'package:session_manage/dio/dio_error_handler.dart';
+import 'package:session_manage/dio/dio_request_handler.dart';
+import 'package:session_manage/dio/dio_response_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class Logging extends Interceptor
+    with DioErrorHandler, DioResponseHandler, DioRequestHandler {
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  Future<void> onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     print('REQUEST[${options.method}] => PATH: ${options.path}');
-    // options.
+
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('userRefreshToken')) {
+      final String? data = prefs.getString('userRefreshToken');
+      Map<String, dynamic> map = jsonDecode(data!);
+      // print('requesting : $map');
+
+      DateTime expiresIn = DateTime.parse(map['expiresIn']);
+      DateTime now = DateTime.now();
+      print(expiresIn);
+      print(now);
+      if (now.isAfter(expiresIn)) {
+        print('calling after expiry');
+        final UserServices middleware = GetX.Get.find<UserServices>();
+        await middleware.refreshToken();
+      } else {
+        print('token is active');
+      }
+    }
+
     return super.onRequest(options, handler);
   }
 
@@ -15,16 +42,6 @@ class Logging extends Interceptor with DioErrorHandler, DioResponseHandler {
     print(
       'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
     );
-
-    switch (response.requestOptions.path) {
-      case '/login':
-        if (response.statusCode == 200) {
-          setToken(response);
-        }
-
-        break;
-      default:
-    }
 
     return super.onResponse(response, handler);
   }

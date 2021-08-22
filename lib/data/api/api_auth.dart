@@ -1,29 +1,45 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'dart:math';
 
 class AuthApi {
   final Dio dio;
 
   AuthApi(this.dio);
 
-  Future<dynamic> getUser(
+  Future<Map<String, dynamic>> getUser(
       {required String email, required String password}) async {
-    // Perform GET request to the endpoint "/users/<id>"
-    Response userData =
-        await dio.post('/login', data: {'email': email, 'password': password});
+    await dio.post('/login', data: {'email': email, 'password': password});
 
-    // Prints the raw data returned by the server
-    print('User Info: ${userData.data}');
+    Map<String, dynamic> map = {
+      'token': random(15),
+      'refreshtoken': random(5),
+      'expiresIn': 10
+    };
+    return map;
   }
 
-  Future<Map?> refreshToken(String accessToken, String refreshToken) async {
-    var response = ((await dio.post("/Token",
-        data: {'accessToken': accessToken, 'refreshToken': refreshToken})));
+  Future<dynamic> refreshToken() async {
+    await dio.get(
+      '/unknown/2',
+      //example token
+    );
 
-    if (response.statusCode == 200) {
-      return response.data as Map<String, dynamic>;
-    } else {
-      return null;
-    }
+    Map<String, dynamic> map = {
+      'token': random(15),
+      'refreshtoken': random(5),
+      'expiresIn': 10
+    };
+
+    print('refreshing token');
+    return map;
+  }
+
+  String random(int len) {
+    var random = Random.secure();
+    var values = List<int>.generate(len, (i) => random.nextInt(255));
+    return base64UrlEncode(values);
   }
 
   /* Future<AuthDTO> signIn(String email, String password) async =>

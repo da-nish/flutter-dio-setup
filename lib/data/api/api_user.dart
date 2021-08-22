@@ -5,19 +5,16 @@ class UserApi {
 
   final Dio dio;
 
-  void token(String token) {
+  void setToken(String token) {
     dio.options.headers["Authorization"] = "Bearer $token";
   }
 
   Future<dynamic> getSingleUser() async {
-    // Perform GET request to the endpoint "/users/<id>"
     Response userData = await dio.get(
       '/users/2',
     );
 
-    // Prints the raw data returned by the server
-    print('User Info: ${userData.data}');
-
+    // print('User Info: ${userData.data}');
     return userData.data;
   }
 

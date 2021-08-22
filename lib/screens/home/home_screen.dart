@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:session_manage/data/api/api_auth.dart';
-import 'package:session_manage/data/api/api_user.dart';
+import 'package:session_manage/screens/home/home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -35,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    // final homeController = Get.find<HomeController>();
+    final HomeController homeController = Get.find<HomeController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -47,27 +46,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-                onPressed: () {
-                  final AuthApi _client = Get.find<AuthApi>();
-                  _client.getUser(
-                      email: 'eve.holt@reqres.in', password: "cityslicka");
+                onPressed: () async {
+                  await homeController.login();
+                  Get.toNamed("/profile");
                 },
-                child: Text('Auth API')),
-            ElevatedButton(
-                onPressed: () {
-                  final UserApi _client = Get.find<UserApi>();
-                  _client.getSingleUser();
-                },
-                child: Text('User API')),
-            ElevatedButton(
-              onPressed: () {
-                // Get.defaultDialog(title: "This is dialog");
-                // Get.snackbar("Title", "This is getx snackbar",
-                //     snackPosition: SnackPosition.BOTTOM);
-                Get.toNamed("/detail");
-              },
-              child: Text("Go to detail"),
-            )
+                child: Text('Login')),
           ],
         ),
       ),
