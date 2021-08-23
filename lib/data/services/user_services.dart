@@ -18,7 +18,7 @@ class UserServices {
     AuthDTO userObj = await authApi.signIn(email, password);
 
     await setToken(userObj.token, userObj.refreshToken, userObj.expiresIn);
-    userApi.token('token');
+    // userApi.token('token'); //for test 401
   }
 
   Future<void> refreshToken(String accessToken, String refreshToken) async {
