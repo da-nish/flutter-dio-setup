@@ -1,4 +1,4 @@
-# getx_setup
+# Flutter Dio setup with GetX
 
 A new Flutter project.
 
