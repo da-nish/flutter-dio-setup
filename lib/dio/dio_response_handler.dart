@@ -10,7 +10,7 @@ mixin DioResponseHandler {
 
     Map<String, dynamic> map = {
       'token': res['token'],
-      'refreshtoken': res['refreshToken'],
+      'refreshToken': res['refreshToken'],
       'expiresIn': expiresIn,
     };
 

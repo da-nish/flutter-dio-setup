@@ -18,9 +18,9 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dioLogger = PrettyDioLogger(
-        requestHeader: false,
+        requestHeader: true,
         responseHeader: false,
-        requestBody: false,
+        requestBody: true,
         responseBody: false,
         error: true,
         compact: false,
@@ -28,14 +28,17 @@ class Application extends StatelessWidget {
 
     Get.put(AuthApi(Dio(BaseOptions(
       receiveDataWhenStatusError: true,
-      baseUrl: 'https://reqres.in/api',
+      baseUrl:
+          'https://aquaapimanagementservice.azure-api.net/aquaclientapi-uat/',
       connectTimeout: 5000,
       receiveTimeout: 3000,
-    ))));
+    ))
+      ..interceptors.add(dioLogger)));
 
     Get.put(UserApi(Dio(BaseOptions(
       receiveDataWhenStatusError: true,
-      baseUrl: 'https://reqres.in/api',
+      baseUrl:
+          'https://aquaapimanagementservice.azure-api.net/aquaclientapi-uat/',
       connectTimeout: 5000,
       receiveTimeout: 3000,
     ))

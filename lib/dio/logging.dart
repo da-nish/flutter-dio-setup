@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as GetX;
 import 'package:session_manage/data/services/user_services.dart';
@@ -21,14 +21,16 @@ class Logging extends Interceptor
       Map<String, dynamic> map = jsonDecode(data!);
       // print('requesting : $map');
 
+      DateFormat dateFormat = DateFormat("HH:mm:ss");
       DateTime expiresIn = DateTime.parse(map['expiresIn']);
       DateTime now = DateTime.now();
-      print(expiresIn);
-      print(now);
+      print(dateFormat.format(expiresIn));
+      print(dateFormat.format(now));
+
       if (now.isAfter(expiresIn)) {
-        print('calling after expiry');
-        final UserServices middleware = GetX.Get.find<UserServices>();
-        await middleware.refreshToken();
+        print('Refreshing token');
+        final UserServices userServices = GetX.Get.find<UserServices>();
+        await userServices.refreshToken(map['token'], map['refreshToken']);
       } else {
         print('token is active');
       }

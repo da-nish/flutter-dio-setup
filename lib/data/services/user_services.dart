@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:session_manage/data/api/api_auth.dart';
 import 'package:session_manage/data/api/api_user.dart';
+import 'package:session_manage/data/datamodel/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServices {
@@ -13,36 +15,44 @@ class UserServices {
     String email,
     String password,
   ) async {
-    final res = await authApi.getUser(email: email, password: password);
+    AuthDTO userObj = await authApi.signIn(email, password);
 
-    await setToken(res['token'], res['refreshtoken'], res['expiresIn']);
+    await setToken(userObj.token, userObj.refreshToken, userObj.expiresIn);
+    userApi.token('token');
   }
 
-  Future<void> refreshToken() async {
-    Map<String, dynamic> map = await authApi.refreshToken();
-    setToken(map['token'], map['refreshtoken'], map['expiresIn']);
+  Future<void> refreshToken(String accessToken, String refreshToken) async {
+    // Map<String, dynamic> map = await authApi.refreshToken();
+    Map<String, dynamic>? map =
+        await authApi.refreshToken(accessToken, refreshToken);
+    if (map != null) {
+      await setToken(map['token'], map['refreshToken'], map['expiresIn']);
+    }
   }
 
   Future<void> setToken(token, refreshtoken, expiry) async {
+    expiry = expiry - 1750;
     var currentTime = DateTime.now();
     var expiresIn = currentTime.add(Duration(seconds: expiry));
 
     Map<String, dynamic> map = {
       'token': token,
-      'refreshtoken': refreshtoken,
+      'refreshToken': refreshtoken,
       'expiresIn': expiresIn.toIso8601String()
     };
 
-    print('$currentTime + $expiry = $expiresIn');
+    DateFormat dateFormat = DateFormat("HH:mm:ss");
+    print(
+        '${dateFormat.format(currentTime)} + $expiry = ${dateFormat.format(expiresIn)}');
 
     String userData = jsonEncode(map);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userRefreshToken', userData);
 
-    userApi.setToken(token);
+    userApi.token(token);
   }
 
   Future<void> callAPI() async {
-    await userApi.getSingleUser();
+    await userApi.userDetails();
   }
 }

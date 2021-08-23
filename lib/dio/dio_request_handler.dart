@@ -8,7 +8,7 @@ mixin DioRequestHandler {
 
     Map<String, dynamic> map = {
       'token': res['token'],
-      'refreshtoken': res['refreshToken'],
+      'refreshToken': res['refreshToken'],
       'expiresIn': res['expiresIn'],
     };
 
