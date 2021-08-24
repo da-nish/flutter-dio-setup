@@ -18,9 +18,9 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dioLogger = PrettyDioLogger(
-        requestHeader: true,
+        requestHeader: false,
         responseHeader: false,
-        requestBody: true,
+        requestBody: false,
         responseBody: false,
         error: true,
         compact: false,

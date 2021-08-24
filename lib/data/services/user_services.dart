@@ -22,7 +22,6 @@ class UserServices {
   }
 
   Future<void> refreshToken(String accessToken, String refreshToken) async {
-    // Map<String, dynamic> map = await authApi.refreshToken();
     Map<String, dynamic>? map =
         await authApi.refreshToken(accessToken, refreshToken);
     if (map != null) {
